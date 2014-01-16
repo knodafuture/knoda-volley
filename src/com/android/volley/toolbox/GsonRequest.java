@@ -17,6 +17,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.nio.charset.Charset;
 
 /**
  * Volley adapter for JSON requests that will be parsed into Java objects by Gson.
@@ -26,7 +27,7 @@ public class GsonRequest<T> extends Request<T> {
     private final Class<T> clazz;
     private final Map<String, String> headers;
     private final Listener<T> listener;
-    private final Object payload;
+    private Object payload;
 
     /**
      * Make a GET request and return a parsed object from JSON.
@@ -57,7 +58,7 @@ public class GsonRequest<T> extends Request<T> {
         if (payload == null)
             return null;
 
-        return s.toJson(payload).getBytes(Charset.forName("UTF-8"));
+        return gson.toJson(payload).getBytes(Charset.forName("UTF-8"));
     }
 
     @Override
